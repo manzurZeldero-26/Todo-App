@@ -1,0 +1,440 @@
+/* ===================================================
+   VARIABLES DE TEMA Y ESTILOS BASE
+   =================================================== */
+:root {
+  /* Tema Oscuro (Por defecto) */
+  --bg-gradient-1: #0a0e14;
+  --bg-gradient-2: #121926;
+  --card-bg: rgba(18, 24, 38, 0.92);
+  --card-border: #d4af37;
+  --card-shadow: rgba(212, 175, 55, 0.25);
+  
+  --text-main: #f0e6d2;
+  --text-muted: #a3b8cc;
+  --gold-glow: #ffe169;
+  --gold-accent: #d4af37;
+  
+  --input-bg: rgba(10, 14, 20, 0.85);
+  --input-border: #2c3a4e;
+  --input-text: #ffffff;
+  
+  --task-bg: rgba(20, 29, 44, 0.9);
+  --task-border: #2a384c;
+  
+  --btn-add-bg: #4c1d95;
+  --btn-add-hover: #6d28d9;
+  
+  --btn-delete-bg: #991b1b;
+  --btn-delete-hover: #dc2626;
+  
+  --btn-complete-bg: #065f46;
+  --btn-complete-hover: #059669;
+
+  --btn-edit-bg: #1e3a8a;
+  --btn-edit-hover: #2563eb;
+
+  --error-color: #f87171;
+  --font-title: 'Cinzel', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+[data-theme="light"] {
+  --bg-gradient-1: #f4efe6;
+  --bg-gradient-2: #e8ded0;
+  --card-bg: rgba(255, 253, 248, 0.95);
+  --card-border: #b8860b;
+  --card-shadow: rgba(184, 134, 11, 0.2);
+  
+  --text-main: #2c221e;
+  --text-muted: #6e6259;
+  --gold-glow: #b8860b;
+  --gold-accent: #966f0d;
+  
+  --input-bg: #ffffff;
+  --input-border: #c8bfae;
+  --input-text: #1a1a1a;
+  
+  --task-bg: #f9f6f0;
+  --task-border: #ded7c8;
+  
+  --btn-add-bg: #6d28d9;
+  --btn-add-hover: #5b21b6;
+  
+  --btn-delete-bg: #dc2626;
+  --btn-delete-hover: #b91c1c;
+  
+  --btn-complete-bg: #059669;
+  --btn-complete-hover: #047857;
+
+  --btn-edit-bg: #2563eb;
+  --btn-edit-hover: #1d4ed8;
+
+  --error-color: #dc2626;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: radial-gradient(circle at center, var(--bg-gradient-2), var(--bg-gradient-1));
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  overflow-x: hidden;
+  transition: background 0.3s ease;
+}
+
+/* ===================================================
+   TARJETA PRINCIPAL (ESTILO HYRULE)
+   =================================================== */
+.main-card {
+  width: 100%;
+  max-width: 580px;
+  background: var(--card-bg);
+  border: 3px solid var(--card-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 0 25px var(--card-shadow), inset 0 0 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 95vh;
+}
+
+/* Decoraciones Esquinas */
+.main-card::before, .main-card::after {
+  content: "✦";
+  position: absolute;
+  color: var(--gold-accent);
+  font-size: 14px;
+}
+.main-card::before { top: 6px; left: 8px; }
+.main-card::after { top: 6px; right: 8px; }
+
+/* ===================================================
+   HEADER & TRIFUERZA
+   =================================================== */
+.app-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.triforce-container {
+  width: 70px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+
+.triforce-container:hover {
+  transform: scale(1.1);
+}
+
+.triforce-svg polygon {
+  fill: #ffd700;
+  stroke: #b8860b;
+  stroke-width: 2;
+  animation: triforcePulse 3s infinite ease-in-out;
+}
+
+.triforce-svg .tri-top { animation-delay: 0s; }
+.triforce-svg .tri-left { animation-delay: 0.4s; }
+.triforce-svg .tri-right { animation-delay: 0.8s; }
+
+@keyframes triforcePulse {
+  0%, 100% { fill: #ffd700; filter: drop-shadow(0 0 2px #ffe169); }
+  50% { fill: #fff3a8; filter: drop-shadow(0 0 12px #ffffff); }
+}
+
+.app-title {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--gold-glow);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  font-weight: 900;
+}
+
+.app-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ===================================================
+   BOTÓN CAMBIO DE TEMA
+   =================================================== */
+.controls-bar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.theme-btn {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+.theme-btn:hover {
+  background: var(--gold-accent);
+  color: #000;
+}
+
+/* ===================================================
+   FORMULARIO E INPUT
+   =================================================== */
+.todo-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.input-group input {
+  flex: 1;
+  background: var(--input-bg);
+  border: 2px solid var(--input-border);
+  color: var(--input-text);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.input-group input:focus {
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 8px var(--card-shadow);
+}
+
+.btn-add {
+  background: var(--btn-add-bg);
+  color: #ffffff;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-add:hover {
+  background: var(--btn-add-hover);
+}
+
+.btn-add:active {
+  transform: scale(0.95);
+}
+
+.error-msg {
+  color: var(--error-color);
+  font-size: 0.82rem;
+  margin-top: 6px;
+  min-height: 18px;
+  font-weight: 600;
+  display: none;
+}
+
+.error-msg.visible {
+  display: block;
+}
+
+/* ===================================================
+   LISTA DE TAREAS
+   =================================================== */
+.task-list {
+  list-style: none;
+  overflow-y: auto;
+  max-height: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+}
+
+.task-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 4px;
+}
+
+.task-item {
+  display: flex;
+  align-items: stretch;
+  background: var(--task-bg);
+  border: 1px solid var(--task-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.task-item:hover {
+  border-color: var(--gold-accent);
+}
+
+/* Botones de Acción Tarea */
+.task-btn {
+  border: none;
+  width: 45px;
+  min-width: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 1.1rem;
+  transition: background 0.2s ease;
+}
+
+.task-btn.delete {
+  background: var(--btn-delete-bg);
+}
+.task-btn.delete:hover {
+  background: var(--btn-delete-hover);
+}
+
+.task-btn.complete {
+  background: var(--btn-complete-bg);
+}
+.task-btn.complete:hover {
+  background: var(--btn-complete-hover);
+}
+
+.task-btn.edit {
+  background: var(--btn-edit-bg);
+  font-size: 0.9rem;
+}
+.task-btn.edit:hover {
+  background: var(--btn-edit-hover);
+}
+
+/* Contenido de Texto */
+.task-content {
+  flex: 1;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.task-input-edit {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--gold-accent);
+  color: var(--input-text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+}
+
+/* Estado Completado */
+.task-item.is-completed .task-content {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+/* ===================================================
+   FOOTER CON ESTADÍSTICAS
+   =================================================== */
+.stats-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--task-border);
+}
+
+.stat-badge {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stat-badge.total {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+
+.stat-badge.completed {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+.stat-badge.pending {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+.stat-num {
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-top: 2px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .main-card {
+    padding: 16px;
+  }
+  .app-title {
+    font-size: 1.4rem;
+  }
+  .stat-badge {
+    padding: 6px 4px;
+    font-size: 0.68rem;
+  }
+}
